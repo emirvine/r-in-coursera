@@ -9,4 +9,15 @@ corr <- function(directory, threshold = 0) {
 
         ## Return a numeric vector of correlations
         ## NOTE: Do not round the result!
+threscorr <- function(fname) {
+	data <- read.csv(file.path(directory,fname))
+	nobs <- sum(complete.cases(data))
+	if (nobs > threshold) {
+		return(cor(data$nitrate, data$sulfate, use="complete.obs"))
+	}
+	}
+correlated <- sapply(list.files(directory), threscorr)
+correlated <- unlist(correlated[!sapply(correlated, is.null)])
+return(correlated)
+
 }

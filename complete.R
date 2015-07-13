@@ -13,10 +13,9 @@ complete <- function(directory, id = 1:332) {
         ## where 'id' is the monitor ID number and 'nobs' is the
         ## number of complete cases
 
-csvfiles <- sprintf("E:/code/r-in-coursera/%s/%03d.csv", directory, id)
-nrows <- sapply(csvfiles, function(f) sum(complete.cases(read.csv(f))))
-rowlabels <- nrow(nrows)
-data.frame(id = sprintf('%3d', id), 
-            nobs = sapply(csvfiles,function(x) length(count.fields(x))),
-            row.names = rowlabels)
+nobs <- function(id) {
+	path <- file.path(directory, paste(sprintf("%03d", as.numeric(id)),".csv", sep=""))
+	return (sum(complete.cases(read.csv(path))))
+	}
+	return (data.frame(id=id, nobs=sapply(id,nobs)))
 }
