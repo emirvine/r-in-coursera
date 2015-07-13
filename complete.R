@@ -13,20 +13,10 @@ complete <- function(directory, id = 1:332) {
         ## where 'id' is the monitor ID number and 'nobs' is the
         ## number of complete cases
 
-files <- list.files(directory, full.names=TRUE)
-counter <- 0
-mydata <- data.frame('id','nobs')
-for (i in id) {
-	nobs = 0
-	id = i
-	current_file <- read.csv(files[i])
-	for (i in 1:nrow(current_file)) {
-		row <- current_file[1,]
-
-	if (!is.na, current_file) {
-		nobs <- nobs + 1 }
-	counter <- counter + 1
-	mydata <- rbind(mydata, [id, nobs], mydata[-(1:counter),])}
-
-
+csvfiles <- sprintf("E:/code/r-in-coursera/%s/%03d.csv", directory, id)
+nrows <- sapply(csvfiles, function(f) sum(complete.cases(read.csv(f))))
+rowlabels <- nrow(nrows)
+data.frame(id = sprintf('%3d', id), 
+            nobs = sapply(csvfiles,function(x) length(count.fields(x))),
+            row.names = rowlabels)
 }
